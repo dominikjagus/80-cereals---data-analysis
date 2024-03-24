@@ -1,0 +1,182 @@
+## IMPORTS
+
+df = pd.read_csv('cereal.csv')
+print(df.head())
+
+                        name mfr type  calories  ...  shelf  weight  cups     rating
+0                  100% Bran   N    C        70  ...      3     1.0  0.33  68.402973
+1          100% Natural Bran   Q    C       120  ...      3     1.0  1.00  33.983679
+2                   All-Bran   K    C        70  ...      3     1.0  0.33  59.425505
+3  All-Bran with Extra Fiber   K    C        50  ...      3     1.0  0.50  93.704912
+4             Almond Delight   R    C       110  ...      3     1.0  0.75  34.384843
+
+[5 rows x 16 columns]
+
+df.rename(columns={'mfr':'manufacturer'}, inplace = True)
+
+df.info()
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 77 entries, 0 to 76
+Data columns (total 16 columns):
+ #   Column    Non-Null Count  Dtype  
+---  ------    --------------  -----  
+ 0   name      77 non-null     object 
+ 1   mfr       77 non-null     object 
+ 2   type      77 non-null     object 
+ 3   calories  77 non-null     int64  
+ 4   protein   77 non-null     int64  
+ 5   fat       77 non-null     int64  
+ 6   sodium    77 non-null     int64  
+ 7   fiber     77 non-null     float64
+ 8   carbo     77 non-null     float64
+ 9   sugars    77 non-null     int64  
+ 10  potass    77 non-null     int64  
+ 11  vitamins  77 non-null     int64  
+ 12  shelf     77 non-null     int64  
+ 13  weight    77 non-null     float64
+ 14  cups      77 non-null     float64
+ 15  rating    77 non-null     float64
+dtypes: float64(5), int64(8), object(3)
+memory usage: 9.8+ KB
+
+
+how_many_missing_values = df.isnull().sum()
+print(how_many_missing_values[:])
+
+name        0
+mfr         0
+type        0
+calories    0
+protein     0
+fat         0
+sodium      0
+fiber       0
+carbo       0
+sugars      0
+potass      0
+vitamins    0
+shelf       0
+weight      0
+cups        0
+rating      0
+dtype: int64
+
+unique_values_column1 = df['name'].value_counts()
+
+pd.set_option('display.max_rows', None)
+print(unique_values_column1)
+
+name
+100% Bran                                 1
+Nutri-Grain Almond-Raisin                 1
+Quaker Oat Squares                        1
+Puffed Wheat                              1
+Puffed Rice                               1
+Product 19                                1
+Post Nat. Raisin Bran                     1
+Oatmeal Raisin Crisp                      1
+Nutri-grain Wheat                         1
+Nut&Honey Crunch                          1
+Just Right Fruit & Nut                    1
+Multi-Grain Cheerios                      1
+Mueslix Crispy Blend                      1
+Muesli Raisins; Peaches; & Pecans         1
+Muesli Raisins; Dates; & Almonds          1
+Maypo                                     1
+Lucky Charms                              1
+Life                                      1
+Quaker Oatmeal                            1
+Raisin Bran                               1
+Raisin Nut Bran                           1
+Raisin Squares                            1
+Wheaties                                  1
+Wheat Chex                                1
+Trix                                      1
+Triples                                   1
+Total Whole Grain                         1
+Total Raisin Bran                         1
+Total Corn Flakes                         1
+Strawberry Fruit Wheats                   1
+Special K                                 1
+Smacks                                    1
+Shredded Wheat spoon size                 1
+Shredded Wheat 'n'Bran                    1
+Shredded Wheat                            1
+Rice Krispies                             1
+Rice Chex                                 1
+Kix                                       1
+Just Right Crunchy  Nuggets               1
+100% Natural Bran                         1
+Cap'n'Crunch                              1
+Corn Pops                                 1
+Corn Flakes                               1
+Corn Chex                                 1
+Cocoa Puffs                               1
+Clusters                                  1
+Cinnamon Toast Crunch                     1
+Cheerios                                  1
+Bran Flakes                               1
+Honey-comb                                1
+Bran Chex                                 1
+Basic 4                                   1
+Apple Jacks                               1
+Apple Cinnamon Cheerios                   1
+Almond Delight                            1
+All-Bran with Extra Fiber                 1
+All-Bran                                  1
+Count Chocula                             1
+Cracklin' Oat Bran                        1
+Cream of Wheat (Quick)                    1
+Crispix                                   1
+Honey Nut Cheerios                        1
+Honey Graham Ohs                          1
+Great Grains Pecan                        1
+Grape-Nuts                                1
+Grape Nuts Flakes                         1
+Golden Grahams                            1
+Golden Crisp                              1
+Fruity Pebbles                            1
+Fruitful Bran                             1
+Fruit & Fibre Dates; Walnuts; and Oats    1
+Frosted Mini-Wheats                       1
+Frosted Flakes                            1
+Froot Loops                               1
+Double Chex                               1
+Crispy Wheat & Raisins                    1
+Wheaties Honey Gold                       1
+Name: count, dtype: int64
+
+new_names = {'protein': 'protein (g)', 'fat': 'fat (g)','sodium': 'sodium (mg)','fiber':'fiber (g)','carbo':'carbohydrates (g)','sugars':'sugars (g)','potass':'potassium (mg)','vitamins': 'vitamins %', 'weight':'weight (oz/serv)','cups': 'cups/serv'}
+df = df.rename(columns=new_names)
+
+df['manufacturer'] = df['manufacturer'].replace({'A':'American Home Food Products','G':'General Mills','K' : 'Kelloggs','N' : 'Nabisco','P' : 'Post','Q' : 'Quaker Oats', 'R' : 'Ralston Purina'})
+
+print(df.head())
+
+                        name    manufacturer  ... cups/serv     rating
+0                  100% Bran         Nabisco  ...      0.33  68.402973
+1          100% Natural Bran     Quaker Oats  ...      1.00  33.983679
+2                   All-Bran        Kelloggs  ...      0.33  59.425505
+3  All-Bran with Extra Fiber        Kelloggs  ...      0.50  93.704912
+4             Almond Delight  Ralston Purina  ...      0.75  34.384843
+
+[5 rows x 16 columns]
+
+# Retrieving the 10 most caloric cereals
+more_caloric_cereals = df.sort_values(by= 'calories', ascending = False)
+top10_caloric_cereals = more_caloric_cereals.head(10)
+
+# Retrieving the 10 less caloric cereals
+less_caloric_cereals = df.sort_values(by= 'calories', ascending = True)
+the10_less_caloric_cereals = less_caloric_cereals.head(10)
+
+plt.figure(figsize=(10,6))
+plt.barh(top10_caloric_cereals['name'],top10_caloric_cereals['calories'], color = 'red', label = 'Top 10 caloric cereals')
+plt.barh(the10_less_caloric_cereals['name'], the10_less_caloric_cereals['calories'], color = 'blue', label = 'Bottom 10 caloric cereals')
+plt.xlabel('Calories')
+plt.ylabel('Cereal')
+plt.title('The comparison between the 10 most caloric cereals and the 10 less caloric cereals')
+plt.legend()
+plt.show()
+
