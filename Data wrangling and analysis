@@ -1,5 +1,17 @@
 ## IMPORTS
 
+{
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    'import numpy as np'
+    'import pandas as pd'
+    'import matplotlib.pyplot as plt'
+    'import seaborn as sns'
+  ]
+}
 df = pd.read_csv('cereal.csv')
 print(df.head())
 
